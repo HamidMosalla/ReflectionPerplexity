@@ -1,0 +1,37 @@
+{
+  "sort": [
+    { "lastName.keyword": { "order": "asc" } },
+    { "firstName.keyword": { "order": "asc" } }
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "bool": {
+            "should": [
+              {
+                "multi_match": {
+                  "query": "Natalia",
+                  "fields": [ "firstName" ],
+                  "boost": 1,
+                  "fuzziness": "auto"
+                }
+              },
+              {
+                "multi_match": {
+                  "query": "Natalia",
+                  "fields": [ "firstName" ],
+                  "boost": 1,
+                  "type": "phrase_prefix"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "should": [],
+      "filter": [ { "match_phrase": { "TenantId": "tsdev" } } ]
+    }
+  },
+  "highlight": { "fields": { "*": { } } }
+}
